@@ -1,6 +1,5 @@
 package com.effcode.clean.me.controller;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +15,7 @@ import com.effcode.clean.me.model.EmailDetail;
 import com.effcode.clean.me.service.EmailService;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("EmailService")
@@ -25,7 +25,7 @@ public class EmailApiController {
 	EmailService emailService;
 
     @PostMapping("/sendEmail")
-    @CircuitBreaker(name="SendMail" , fallbackMethod = "sendMailFallback")
+    @CircuitBreaker(name="sendMail" , fallbackMethod = "sendMailFallback")
     public ResponseEntity<String> sendMail(@RequestBody @Valid EmailDetail emailDetail) throws Exception {
         boolean state = emailService.sendMail(emailDetail);
         if (state) {
